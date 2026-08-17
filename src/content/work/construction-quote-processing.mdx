@@ -1,0 +1,88 @@
+---
+title: 'Cutting hours of manual entry out of construction quoting'
+company: 'Kojo Technologies'
+summary: 'Vendors were hand-keying hundreds of line items on quotes worth millions. I led the workflow redesign from onboarding through document scanning to review.'
+role: 'Workflow design lead — current-state analysis, journey mapping, interaction design, usability testing'
+year: '2025'
+tags: ['Product design', 'Analysis', 'User testing', 'UI/UX']
+impact: '701 unique users and 459 PDFs scanned in release week'
+habitat: 'built'
+order: 3
+---
+
+## Background
+
+Kojo is a construction materials inventory management platform. I led the
+workflow design for vendors responding to requests for quotes from their
+customers, spanning onboarding, document processing, and review. The goal was
+to help vendors process quotes faster so they get paid sooner.
+
+## The problem
+
+A vendor not yet integrated with Kojo had to trade emails with customer success
+and manually enter every quote line item into the bid portal. Line items run
+into the hundreds. The quotes themselves run from hundreds of thousands to
+millions of dollars — so a tedious step sat directly in front of the most
+consequential transaction these businesses make.
+
+## Evaluating the current state
+
+There were existing wireframes plus what was already in production. I tested
+both internally with team members and watched Fullstory recordings to find where
+users actually stalled, then turned that into flow diagrams of the current
+state. Starting from recorded behavior rather than the wireframes meant the
+redesign responded to real friction instead of assumed friction.
+
+## Customer journey map
+
+I built the journey map with input from my product manager, integrations
+specialist, and customer success, and used it to identify the opportunity areas
+worth designing into.
+
+## Design iterations
+
+Three iterations. I started with a full-page layout, then broke the stages of
+uploading, scanning, and reviewing into a stepper with a dedicated page per
+step so vendors could concentrate on one task at a time. Capturing user logins
+meant adding an authentication step to the scope.
+
+- **Iteration 1** — one-page layout
+- **Iteration 2** — stepper exploration
+- **Iteration 3** — new account creation and improved mapping UX
+
+The one-page version tested worse for a specific reason: on a quote with 300
+line items, showing every stage at once meant the vendor never knew whether
+they were done. Splitting it gave the work a visible end.
+
+## Usability testing
+
+Four sessions — two internal team participants, two external vendor users.
+
+**What worked**
+
+- The "Upload Quote PDF" call to action was clearly understood
+- Dedicated pages per step
+- Judged a real improvement over the current bid portal, with vendors
+  specifically glad to spend less time on manual entry
+
+**What needed work**
+
+- Limit uploads to one file at a time
+- The "next" button labels were confusing
+- Bulk editing may need to be in scope
+- Scrollability was not obvious
+
+## Outcomes
+
+In release week:
+
+- **701** unique users on the new bid portal
+- **459** PDFs scanned in
+- **333** quotes still manually entered
+
+> "You just saved me half the time it takes to enter a quote" — Tom, Commercial
+> Pipe & Supply
+
+The 333 manual entries are the honest number in that set: a third of vendors
+still bypassed scanning. That gap was the next thing I would have designed
+into.

@@ -1,0 +1,115 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import RelatedWork from '../../components/RelatedWork.astro';
+import { habitats } from '../../lib/habitats';
+
+export async function getStaticPaths() {
+  const work = await getCollection('work', ({ data }) => !data.draft);
+  return work.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, all: work },
+  }));
+}
+
+const { entry, all } = Astro.props;
+const { Content } = await render(entry);
+const { title, company, summary, role, year, tags, impact, cover, coverAlt, habitat } =
+  entry.data;
+const habitatMeta = habitats[habitat];
+
+// Prefer work from the same ecosystem, but never leave the reader at a dead
+// end — if this is the only project in its habitat, fall back to the next
+// projects in order so there's always somewhere to go.
+const others = all.filter((e) => e.id !== entry.id);
+const sameHabitat = others.filter((e) => e.data.habitat === habitat);
+const isThreaded = sameHabitat.length > 0;
+const related = (
+  isThreaded
+    ? sameHabitat
+    : others.sort((a, b) => a.data.order - b.data.order)
+).slice(0, 2);
+---
+
+<Base title={`${title} — Michelle Chang`} description={summary}>
+  <article class="mx-auto max-w-5xl px-6 pt-12 sm:px-8 sm:pt-16">
+    <a
+      href="/"
+      class="text-sm text-fog-500 no-underline hover:text-kelp-900"
+    >
+      &larr; All work
+    </a>
+
+    <header class="mt-8 max-w-3xl">
+      <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-fog-500">
+        <span
+          class="inline-flex items-center gap-1.5"
+          style={`color: ${habitatMeta.color}`}
+        >
+          <span
+            class="inline-block h-1.5 w-1.5 rounded-[60%_40%_55%_45%]"
+            style={`background-color: ${habitatMeta.color}`}
+            aria-hidden="true"></span>
+          {habitatMeta.label}
+        </span>
+        <span aria-hidden="true">·</span>
+        <span>{company}</span>
+        <span aria-hidden="true">·</span>
+        <span>{year}</span>
+      </p>
+
+      <h1 class="text-display mt-3 text-kelp-900">{title}</h1>
+
+      <p class="text-lede mt-5 leading-relaxed text-kelp-700">{summary}</p>
+    </header>
+
+    <!-- Role and impact sit above the fold on purpose: these are the two
+         things a hiring manager scans for before deciding to read on. -->
+    <dl
+      class="mt-10 grid gap-x-10 gap-y-6 border-y border-sand-200 py-6 sm:grid-cols-3"
+    >
+      <div>
+        <dt class="text-xs tracking-wide text-fog-500 uppercase">My role</dt>
+        <dd class="mt-1.5 text-[0.9375rem] text-kelp-900">{role}</dd>
+      </div>
+      <div>
+        <dt class="text-xs tracking-wide text-fog-500 uppercase">Focus</dt>
+        <dd class="mt-1.5 text-[0.9375rem] text-kelp-900">{tags.join(', ')}</dd>
+      </div>
+      {
+        impact && (
+          <div>
+            <dt class="text-xs tracking-wide text-fog-500 uppercase">Outcome</dt>
+            <dd class="mt-1.5 text-[0.9375rem] text-tide-800">{impact}</dd>
+          </div>
+        )
+      }
+    </dl>
+
+    {
+      cover && (
+        <div class="mt-12 overflow-hidden rounded-[1.5rem_1.25rem_1.75rem_1.375rem] border border-sand-200 bg-white">
+          <Image
+            src={cover}
+            alt={coverAlt ?? ''}
+            widths={[640, 1024, 1600]}
+            sizes="(max-width: 1024px) 92vw, 64rem"
+            loading="eager"
+            class="w-full"
+          />
+        </div>
+      )
+    }
+
+    <div class="prose-tide mt-16">
+      <Content />
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <RelatedWork related={related} habitat={habitat} threaded={isThreaded} />
+    )
+  }
+</Base>

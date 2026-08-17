@@ -1,0 +1,54 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { habitats, type Habitat } from '../lib/habitats';
+
+interface Props {
+  related: CollectionEntry<'work'>[];
+  habitat: Habitat;
+  threaded: boolean;
+}
+
+const { related, habitat, threaded } = Astro.props;
+const meta = habitats[habitat];
+
+const heading = threaded
+  ? `More from the ${meta.label.toLowerCase()} side`
+  : 'Elsewhere in the ecosystem';
+const blurb = threaded
+  ? meta.blurb
+  : 'Different domains, same shape of problem: an expert user, ambiguous data, and a decision that cannot wait.';
+---
+
+<!-- The one idea borrowed from the network concept: work that shares an
+     ecosystem is threaded together, so a reader who cares about ocean
+     tooling lands on the other ocean project instead of a generic list. -->
+<aside
+  class="mx-auto mt-28 max-w-5xl px-6 sm:px-8"
+  aria-labelledby="related-heading"
+>
+  <div class="border-t border-sand-200 pt-10">
+    <h2 id="related-heading" class="text-title text-kelp-900">{heading}</h2>
+    <p class="mt-2 max-w-xl text-[0.9375rem] text-fog-500">{blurb}</p>
+
+    <ul class="mt-8 grid list-none gap-6 p-0 sm:grid-cols-2">
+      {
+        related.map((entry) => (
+          <li>
+            <a
+              href={`/work/${entry.id}`}
+              class="group block rounded-[1rem_0.875rem_1.125rem_1rem] border border-sand-200 bg-white p-6 no-underline transition-colors hover:border-seaglass-400"
+            >
+              <p class="text-xs text-fog-500">{entry.data.company}</p>
+              <h3 class="mt-1.5 text-lg text-kelp-900 transition-colors group-hover:text-tide-600">
+                {entry.data.title}
+              </h3>
+              <p class="mt-2 text-sm leading-relaxed text-kelp-700">
+                {entry.data.summary}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</aside>

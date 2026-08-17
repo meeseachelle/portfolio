@@ -1,0 +1,63 @@
+---
+title: 'Making non-adherence explainable at sea'
+company: 'Sofar Ocean'
+summary: 'Captains deviate from routing guidance for good reasons. I designed the layer that let shoreside operators see why, instead of just seeing a lower score.'
+role: 'Product design lead — research, interaction design, and data visualization'
+year: '2024'
+tags: ['Product design', 'UX research', 'Data viz', 'User testing']
+impact: 'Beta with one customer, then released to all customers'
+habitat: 'ocean'
+order: 2
+---
+
+## Background
+
+Sofar's Wayfinder platform evaluates millions of routes each day and alerts
+captains and operators — in-app and by email — when a better path to port takes
+advantage of favorable forecasts. It also sends captains a daily RPM
+recommendation, because in changing conditions variable guidance always
+outperforms a constant power strategy.
+
+## The problem
+
+Captains do not always follow the guidance, and they are often right not to.
+Conditions shift, and extenuating circumstances at sea don't appear in a
+forecast model. But every deviation lowered the vessel's adherence score, and
+shoreside operators were left looking at a number that told them *that*
+something went wrong without telling them *what*.
+
+> How can we allow shoreside operators to reasonably justify when captains do
+> not adhere to our recommendations?
+
+Framing it as justification rather than compliance was the pivotal decision.
+The obvious product response to a low adherence score is to push harder on
+adherence. That would have been the wrong tool: it treats the captain's
+judgment as the defect, when the captain is the person with the most
+information about the actual sea state.
+
+## Finding the critical content
+
+I asked customers what situations most commonly required them to depart from
+our guidance. Those reasons became the vocabulary of the feature — they gave
+operators a way to contextualize a captain's decision-making rather than
+second-guess it.
+
+## Adding context to the data visualization
+
+I introduced a column of notifications alongside the daily adherence graph,
+each one explaining what was occurring on a given day. Interactivity ties the
+two together: selecting an accordion item highlights the corresponding colored
+column on the graph, so the issue and its reasoning are visibly linked rather
+than sitting in two separate mental models.
+
+The design decision underneath this is small but load-bearing. The notifications
+could have lived in a separate tab, which would have been cleaner to build. Put
+next to the graph, they force the operator to read cause and effect together —
+which is the entire point of the feature.
+
+## Outcomes
+
+Released initially as a beta to one target customer. After several weeks of
+positive feedback, it shipped to all customers.
+
+> "One of the best tools you have prepared!" — Star Bulk

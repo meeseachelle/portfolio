@@ -1,4 +1,14 @@
 ---
+import Logo from './Logo.astro';
+
+interface Props {
+  // The homepage introduces her with the full stacked lockup; every other page
+  // uses the compact inline version so content stays high on the screen.
+  stacked?: boolean;
+}
+
+const { stacked = false } = Astro.props;
+
 const path = Astro.url.pathname;
 const links = [
   { href: '/', label: 'Work' },
@@ -8,17 +18,47 @@ const isActive = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
 ---
 
-<header class="mx-auto flex max-w-5xl items-baseline justify-between px-6 pt-8 pb-4 sm:px-8">
-  <a
-    href="/"
-    class="font-display text-lg tracking-tight text-kelp-900 no-underline"
-    aria-label="Michelle Chang, home"
-  >
-    Michelle Chang
-  </a>
+<header
+  class:list={[
+    'mx-auto flex max-w-5xl justify-between px-6 sm:px-8',
+    stacked ? 'items-start pt-7 pb-5' : 'items-baseline pt-8 pb-4',
+  ]}
+>
+  {
+    stacked ? (
+      <a
+        href="/"
+        class="group inline-block text-kelp-900 no-underline"
+        aria-label="Michelle Chang, home"
+      >
+        {/* The mark is sized to match the wordmark's width exactly. Rendered
+            large, it needs far less thickening than the inline version — at
+            this scale stroke 3 reads as heavy. */}
+        <Logo
+          strokeWidth={0.6}
+          class="block h-auto w-[6.2em] text-kelp-900 transition-colors group-hover:text-tide-600"
+        />
+        <span class="font-display mt-1 block text-lg leading-none tracking-tight">
+          Michelle Chang
+        </span>
+      </a>
+    ) : (
+      <a
+        href="/"
+        class="group flex items-center gap-2.5 text-kelp-900 no-underline"
+        aria-label="Michelle Chang, home"
+      >
+        <Logo
+          strokeWidth={4}
+          class="h-[0.86em] w-[2.02em] shrink-0 translate-y-[0.06em] text-kelp-900 transition-colors group-hover:text-tide-600"
+        />
+        <span class="font-display text-lg tracking-tight">Michelle Chang</span>
+      </a>
+    )
+  }
 
-  <nav aria-label="Main">
-    <ul class="flex list-none items-baseline gap-6 p-0 text-sm">
+  <nav aria-label="Main" class:list={[stacked && 'pt-2']}>
+    <ul class="font-ui flex list-none items-baseline gap-6 p-0 text-sm">
       {
         links.map((link) => (
           <li>
@@ -37,14 +77,6 @@ const isActive = (href: string) =>
           </li>
         ))
       }
-      <li>
-        <a
-          href="mailto:meeseachelle@gmail.com"
-          class="text-fog-500 no-underline transition-colors hover:text-kelp-900"
-        >
-          Email
-        </a>
-      </li>
     </ul>
   </nav>
 </header>

@@ -5,4 +5,18 @@ dist/
 .env
 .env.production
 .vercel
+.wrangler/
 npm-debug.log*
+
+# F37 Atlantic is licensed for desktop use only. Keeping the files out of the
+# repo prevents redistributing a commercial font via a public GitHub repo.
+src/styles/F37Atlantic*.ttf
+*.otf
+
+# Source video masters — the compressed mp4 in public/video is what ships
+*.mov
+
+# Local type specimens, not part of the site
+atlantic-specimen.png
+font-pairings.png
+atlantic-alternatives.png

@@ -1,0 +1,16 @@
+{
+  // Workers Static Assets — Cloudflare's current home for static sites.
+  // Pages still works, but all new capability lands on Workers first, so this
+  // is the surface that will still be current in a few years.
+  //
+  // No `main` entry: this is a purely static site, so there is no Worker
+  // script to run. Cloudflare serves dist/ straight from the edge.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "michelle-chang-portfolio",
+  "compatibility_date": "2026-08-17",
+  "assets": {
+    "directory": "./dist",
+    // Serves our styled 404 page instead of a bare Cloudflare error.
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,236 @@
+---
+// A single wave that washes up over the hero on page load and drains away.
+//
+// Deliberately one-shot, not a loop: a repeating wave behind a headline reads
+// as an irritant by the third pass. Pure CSS and SVG — no JavaScript, so it
+// costs nothing against the performance budget.
+//
+// The illusion depends on three things:
+//   1. The turbulence filters animate independently of the motion, so the
+//      waterline reshapes while it travels instead of sliding as a fixed
+//      silhouette.
+//   2. The three layers run on different durations (6.6s / 7.1s / 7.6s) so
+//      they drift apart rather than moving as one block.
+//   3. The motion curve is hand-shaped across ten keyframes on linear timing —
+//      fast surge, a hesitation at full extent, slow drain. Real swash is
+//      asymmetric; a single easing function is what makes CSS waves feel
+//      like rectangles.
+//
+// aria-hidden and pointer-events: none throughout — it is decoration and must
+// never intercept a click or be announced.
+---
+
+<div class="hero-wash" aria-hidden="true">
+  <svg width="0" height="0" class="defs">
+    <defs>
+      <filter id="hw-body" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.004 0.014"
+          numOctaves="4"
+          seed="7"
+          result="n"
+        >
+          <animate
+            attributeName="baseFrequency"
+            dur="6.6s"
+            values="0.004 0.014;0.007 0.024;0.003 0.011;0.006 0.019;0.004 0.014"
+            repeatCount="indefinite"></animate>
+        </feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="n"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          scale="30"
+        >
+          <animate
+            attributeName="scale"
+            dur="6.6s"
+            values="20;46;28;40;20"
+            repeatCount="indefinite"></animate>
+        </feDisplacementMap>
+        <feGaussianBlur stdDeviation="4"></feGaussianBlur>
+      </filter>
+
+      <filter id="hw-body2" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.005 0.018"
+          numOctaves="4"
+          seed="21"
+          result="n"
+        >
+          <animate
+            attributeName="baseFrequency"
+            dur="7.1s"
+            values="0.005 0.018;0.003 0.012;0.008 0.026;0.004 0.015;0.005 0.018"
+            repeatCount="indefinite"></animate>
+        </feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="n"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          scale="26"
+        >
+          <animate
+            attributeName="scale"
+            dur="7.1s"
+            values="26;16;40;22;26"
+            repeatCount="indefinite"></animate>
+        </feDisplacementMap>
+        <feGaussianBlur stdDeviation="6"></feGaussianBlur>
+      </filter>
+
+      <filter id="hw-foam" x="-35%" y="-35%" width="170%" height="170%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.018 0.05"
+          numOctaves="5"
+          seed="3"
+          result="n"
+        >
+          <animate
+            attributeName="baseFrequency"
+            dur="5.4s"
+            values="0.018 0.05;0.028 0.07;0.014 0.04;0.018 0.05"
+            repeatCount="indefinite"></animate>
+        </feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="n"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          scale="20"
+        >
+          <animate
+            attributeName="scale"
+            dur="5.4s"
+            values="16;30;20;16"
+            repeatCount="indefinite"></animate>
+        </feDisplacementMap>
+        <feGaussianBlur stdDeviation="3.4"></feGaussianBlur>
+      </filter>
+    </defs>
+  </svg>
+
+  <svg class="wv c" viewBox="0 0 1200 380" preserveAspectRatio="none">
+    <path
+      filter="url(#hw-body2)"
+      d="M-60 58 C 200 32 360 86 560 56 S 880 26 1060 64 S 1190 86 1260 54 L1260 440 L-60 440 Z"
+      fill="#eef4f1"></path>
+  </svg>
+
+  <svg class="wv b" viewBox="0 0 1200 380" preserveAspectRatio="none">
+    <path
+      filter="url(#hw-body)"
+      d="M-60 98 C 220 64 380 124 600 92 S 900 58 1080 102 S 1190 124 1260 92 L1260 440 L-60 440 Z"
+      fill="#dcebe5"></path>
+  </svg>
+
+  <svg class="wv a" viewBox="0 0 1200 380" preserveAspectRatio="none">
+    <path
+      filter="url(#hw-body)"
+      d="M-60 144 C 200 112 400 168 620 136 S 920 104 1100 146 S 1190 166 1260 136 L1260 440 L-60 440 Z"
+      fill="#c7ded6"></path>
+    <path
+      filter="url(#hw-foam)"
+      d="M-60 144 C 200 112 400 168 620 136 S 920 104 1100 146 S 1190 166 1260 136 L1260 180 C 1190 212 1100 188 1100 188 S 920 148 620 180 S 200 156 -60 186 Z"
+      fill="#ffffff"></path>
+  </svg>
+</div>
+
+<style>
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-wash .defs {
+    position: absolute;
+  }
+
+  .wv {
+    position: absolute;
+    left: -14%;
+    width: 128%;
+    bottom: -40px;
+    height: 380px;
+    mix-blend-mode: multiply;
+    opacity: 0;
+    transform: translateY(114%);
+    transform-origin: 50% 100%;
+    will-change: transform, opacity;
+  }
+
+  /* Each layer dissolves at a different height so they don't all fade along
+     the same line, which would read as a band rather than as water. */
+  .wv.a {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 34%, rgba(0, 0, 0, 0.55) 62%, rgba(0, 0, 0, 0.18) 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 34%, rgba(0, 0, 0, 0.55) 62%, rgba(0, 0, 0, 0.18) 84%, transparent 100%);
+    animation: hw-swash 6.6s linear 0.35s forwards;
+  }
+
+  .wv.b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 28%, rgba(0, 0, 0, 0.5) 56%, rgba(0, 0, 0, 0.14) 80%, transparent 97%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 28%, rgba(0, 0, 0, 0.5) 56%, rgba(0, 0, 0, 0.14) 80%, transparent 97%);
+    animation: hw-swash 7.1s linear 0.6s forwards;
+  }
+
+  .wv.c {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 22%, rgba(0, 0, 0, 0.42) 50%, rgba(0, 0, 0, 0.1) 76%, transparent 94%);
+    mask-image: linear-gradient(to bottom, #000 0, #000 22%, rgba(0, 0, 0, 0.42) 50%, rgba(0, 0, 0, 0.1) 76%, transparent 94%);
+    animation: hw-swash 7.6s linear 0.85s forwards;
+  }
+
+  @keyframes hw-swash {
+    0% {
+      transform: translateY(114%) scaleY(0.9) translateX(0);
+      opacity: 0;
+    }
+    4% {
+      opacity: 0.55;
+    }
+    9% {
+      transform: translateY(58%) scaleY(1.01) translateX(-4px);
+    }
+    17% {
+      transform: translateY(16%) scaleY(1.07) translateX(-7px);
+    }
+    25% {
+      transform: translateY(-7%) scaleY(1.09) translateX(-8px);
+      opacity: 0.78;
+    }
+    31% {
+      transform: translateY(-16%) scaleY(1.05) translateX(-6px);
+    }
+    38% {
+      transform: translateY(-14%) scaleY(1.01) translateX(-2px);
+    }
+    48% {
+      transform: translateY(-5%) scaleY(0.99) translateX(3px);
+      opacity: 0.66;
+    }
+    62% {
+      transform: translateY(24%) scaleY(0.97) translateX(7px);
+    }
+    80% {
+      transform: translateY(66%) scaleY(0.94) translateX(5px);
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(116%) scaleY(0.9) translateX(0);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-wash {
+      display: none;
+    }
+  }
+</style>

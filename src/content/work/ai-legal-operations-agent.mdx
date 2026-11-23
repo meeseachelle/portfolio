@@ -1,45 +1,143 @@
 ---
-title: 'AI legal operations agent'
+title: 'Designing an AI agent lawyers would actually trust'
 company: 'PERSUIT'
-summary: 'Designing an agentic tool for legal operations teams — principles, design system, and the use cases where machine judgment earns trust.'
-role: 'Product designer — strategy, design system, interaction design'
+summary: 'Persi advises Fortune 500 legal teams on whether to keep a matter in house or send it to outside counsel. I led design from experimentation to beta: principles, content design, research, and the system components.'
+role: 'Design lead: principles, content design, user research, design system'
 year: '2026'
 tags: ['Product design', 'Design system', 'Strategy', 'AI']
+impact: '22 beta customers; a deciding factor in contract renewals'
+cover: '../../assets/work/ai-legal-operations-agent/cover-persi.jpg'
+coverAlt: 'The Persi interface shown on a laptop against a dark office background, with the conversation on the left and an expanded Business Rules artifact panel on the right'
+featureImage: '../../assets/work/ai-legal-operations-agent/matter intake form co-pilot.png'
+featureImageAlt: 'PERSUIT matter intake settings with the Persi co-pilot open in a side panel, asking clarifying questions before helping build a new matter intake form'
 habitat: 'systems'
 order: 0
-draft: true
+featured: true
 ---
 
-{/*
-  This is your most recent and only AI case study — the highest-leverage page
-  on the site for the work you're trying to attract. It's marked `draft: true`
-  so it stays off the live site until you're ready; flip that to `false` to
-  publish.
+import Figure from '../../components/Figure.astro';
+import VideoFigure from '../../components/VideoFigure.astro';
+import competitive from '../../assets/work/ai-legal-operations-agent/competitive-research-board.png';
+import dsProposal from '../../assets/work/ai-legal-operations-agent/design-system-proposal.png';
+import promptBox from '../../assets/work/ai-legal-operations-agent/prompt-box-component.png';
+import userFlows from '../../assets/work/ai-legal-operations-agent/user-flows-by-squad.png';
+import businessRules from '../../assets/work/ai-legal-operations-agent/business-rules-generated.png';
+import artifactConfirmed from '../../assets/work/ai-legal-operations-agent/artifact-view-confirmed.png';
+import artifactWarning from '../../assets/work/ai-legal-operations-agent/artifact-view-warning-expanded.png';
+import chatStates from '../../assets/work/ai-legal-operations-agent/chat-states-by-use-case.png';
 
-  The headings below mirror the structure from Notion. A few prompts, based on
-  what your other case studies do well:
+## Context
 
-  - Background: what does a legal ops team actually do all day, and where was
-    the agent inserted into that?
-  - Problem: what specifically was slow, error-prone, or unreviewable before?
-  - Principles: this section is your differentiator. Most AI case studies
-    describe features. Stating the principles you designed against — and one
-    place you had to trade one off against another — is what reads as senior.
-  - Design system: what did you have to add to an existing system to express
-    uncertainty, provenance, and reversibility?
-  - Use cases: pick two, and show the decision in each.
-  - Outcome: any number you can share. If it's under NDA, say what you'd
-    measure and why.
-*/}
+Persi is PERSUIT's legal operations agent. It helps Fortune 500 legal teams
+decide when to keep a matter in house versus hire outside counsel, weighing
+subject matter, size, geography, and cost.
 
-## Background
+I joined as design lead during experimentation, while the model and data
+architecture were still being worked out. Persi had to sit inside a platform
+users already knew: enough cohesion to feel like PERSUIT, enough distinction to
+signal a genuinely new kind of experience.
 
-## Problem
+## The key decision
 
-## Principles
+**Where the agent hands off to a human.** An agent that never hands off
+frustrates people exactly when stakes are highest. One that hands off too readily
+never earns trust. Setting that line shaped everything downstream.
 
-## Design system
+## What I did
 
-## Use cases
+**Grounded the team in evidence before setting principles.** I ran competitive
+analysis across adjacent software and leading AI chat products, then shared it
+out. Without shared reference points, principle-setting becomes taste, and taste
+doesn't scale.
 
-## Outcomes
+<Figure
+  src={competitive}
+  alt="Competitive discovery research board comparing six AI products, with screenshots grouped by pattern and annotated in pink, alongside a highlighted key insight panel"
+  caption="Six products pulled apart by interaction pattern."
+  width="wide"
+/>
+
+**Ran three workshops with 11 to 13 participants.** PMs, engineers, architects,
+and designers, covering memory, human intervention, and navigation between
+surface areas.
+
+<VideoFigure
+  src="/video/persi-principles.mp4"
+  poster="/video/persi-principles-poster.jpg"
+  label="Walkthrough of the Persi design principles developed across three workshops"
+  caption="The resulting principles."
+/>
+
+**Introduced a palette and new components**, evaluated with design system
+engineering leads for scalability and maintenance cost. Agent work surfaced
+needs the existing system didn't have, so each addition had to earn its keep.
+
+<Figure
+  src={dsProposal}
+  alt="Design system proposal board showing colour swatches alongside proposed Persi components including message states, artifact panels, warnings, and result cards, laid out for team review"
+  caption="What shipped was a compromise between this and the legacy system."
+  width="wide"
+/>
+
+<Figure
+  src={promptBox}
+  alt="Specification for the prompt box component showing its states across empty, focused, filled, disabled, and error, with annotations for each"
+  caption="The one component every use case passes through, so it had to survive all of them."
+  width="wide"
+/>
+
+**Worked across every squad's use cases:** matter intake, governance approvals,
+e-billing status. Patterns that hold for an invoice check fall apart on a
+governance approval, and you only see that with all of them in view.
+
+<Figure
+  src={userFlows}
+  alt="Persi user flows organised by squad, with a horizontal lane per squad and each step captured on a yellow card across panel management, data, firm pricing, e-billing, and intake"
+  width="wide"
+/>
+
+<Figure
+  src={chatStates}
+  alt="Grid of condensed chat states across different squads and phases, showing how a Persi conversation appears at each stage of several different use cases"
+  caption="The same conversation model, stress-tested across use cases."
+  width="wide"
+/>
+
+<Figure
+  src={businessRules}
+  alt="Rules and governance screen where a user edits business rules in plain language on the left and Persi generates the structured matter routing, RFP creation, and in-house handling rules on the right"
+  caption="The user writes the rule in their own words; Persi returns the structured version for approval."
+  width="wide"
+/>
+
+## De-risking through content design
+
+When an agent hands a general counsel a benchmark figure, the words around that
+number decide whether it gets acted on, ignored, or escalated. Content design is
+the trust surface.
+
+<Figure
+  src={artifactConfirmed}
+  alt="Persi confirming a set of business rule updates, with the conversation on the left and an artifact panel on the right listing the new RFP requirements, in-house handling rules, and billing and engagement terms, with a collapsed warning at the top"
+  caption="Changes summarised in an artifact panel rather than buried in conversation, so what the agent committed to is reviewable in one place."
+  width="wide"
+/>
+
+<Figure
+  src={artifactWarning}
+  alt="The same artifact panel with its warning expanded, listing the specific rules the user must confirm before the changes take effect, each stated in full"
+  caption="The warning states every rule in full. Making the user open it is friction on purpose. This is where an unnoticed mistake becomes a governance problem."
+  width="wide"
+/>
+
+## Outcome
+
+- **22 customers** on the Persi beta program
+- A **deciding factor in renewing their contracts** with PERSUIT
+
+Research sessions with a subset showed they wanted benchmarking data faster,
+and a partner in the in-house versus outside-counsel decision, not a system that
+made it for them.
+
+That validated the intervention line. The value wasn't automating judgment. It
+was removing the work getting in the way of it.

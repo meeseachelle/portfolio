@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string;
+  poster: string;
+  // Describes what the recording shows. Video needs a text equivalent just as
+  // much as an image does.
+  label: string;
+  caption?: string;
+  width?: 'prose' | 'wide';
+}
+
+const { src, poster, label, caption, width = 'wide' } = Astro.props;
+---
+
+<figure class:list={['my-12', width === 'wide' && 'lg:-mx-24']}>
+  <div
+    class="overflow-hidden rounded-[1rem_0.875rem_1.125rem_1rem] border border-sand-200 bg-white"
+  >
+    <!-- No autoplay: this is a 38 second walkthrough, not an ambient loop.
+         preload="metadata" fetches only the header, so the 1.8MB file isn't
+         pulled unless someone presses play. -->
+    <video
+      src={src}
+      poster={poster}
+      controls
+      muted
+      playsinline
+      preload="metadata"
+      aria-label={label}
+      class="block w-full"></video>
+  </div>
+  {
+    caption && (
+      <figcaption class="font-ui mt-3 text-sm leading-relaxed text-fog-500">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>

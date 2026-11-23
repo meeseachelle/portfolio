@@ -1,7 +1,54 @@
 @import 'tailwindcss';
 
-@import '@fontsource-variable/fraunces/index.css';
-@import '@fontsource-variable/inter/index.css';
+/* Plus Jakarta Sans Bold for display, Literata for reading. F37 Atlantic is
+   licensed desktop-only, so it stays out of the site and is used for exported
+   graphics and OG images instead.
+
+   Declared by hand rather than importing Fontsource's index.css, for two
+   reasons: it drops the Cyrillic, Greek, and Vietnamese @font-face blocks this
+   site will never use, and it keeps each file explicit and measurable.
+
+   Literata also ships an optical-size axis, which was tempting — but that file
+   is 107KB against 51KB for weight-only, and the refinement isn't worth
+   doubling the font payload on a site whose pitch includes being fast.
+   Real italic is kept, since browsers only fetch it on pages that
+   actually render a pull quote. */
+
+@font-face {
+  font-family: 'Plus Jakarta Sans Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Literata Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url('@fontsource-variable/literata/files/literata-latin-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Literata Variable';
+  font-style: italic;
+  font-display: swap;
+  font-weight: 200 900;
+  src: url('@fontsource-variable/literata/files/literata-latin-wght-italic.woff2')
+    format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 @theme {
   /* Terrarium + coastal palette.
@@ -29,12 +76,20 @@
   --color-kelp-900: #16211f;
   --color-kelp-700: #35443f;
 
-  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
-  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Inverted from the usual pairing: sans for display, serif for reading.
+     Bold display gives the headlines real weight against Literata's warmth,
+     which does the heavy lifting in long case studies. */
+  --font-display: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui,
+    sans-serif;
+  --font-body: 'Literata Variable', ui-serif, Georgia, serif;
+  /* Nav, labels, tags, metadata — anything that reads as interface, not prose. */
+  --font-ui: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* A type scale that fluidly narrows on small screens rather than
      stepping at breakpoints — fewer layout surprises. */
-  --text-hero: clamp(2.5rem, 1.4rem + 4.6vw, 5rem);
+  /* Capped at 4.5rem so "Designer of experiences." fits on one line inside the
+     content column — at 5rem it measured wider than the container and wrapped. */
+  --text-hero: clamp(2.25rem, 1rem + 4vw, 4.5rem);
   --text-display: clamp(2rem, 1.3rem + 2.8vw, 3.25rem);
   --text-title: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
   --text-lede: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
@@ -61,7 +116,7 @@
   body {
     background-color: var(--surface);
     color: var(--ink);
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -69,10 +124,21 @@
 
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-variation-settings: 'SOFT' 40, 'WONK' 1;
-    font-weight: 500;
+    font-weight: 700;
+    /* Bold needs less negative tracking than a light weight — the strokes
+       already fill the space, so overtightening closes the counters. */
     letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+
+  /* Tracking is a function of size, not just weight: the hero can take -0.03em
+     without the counters filling in, small headings cannot. */
+  h1 {
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    letter-spacing: -0.01em;
   }
 
   p {
@@ -131,10 +197,12 @@
     margin-block-end: 0.25rem;
   }
 
+  /* Literata sets a touch larger than Inter at the same nominal size, so this
+     drops slightly and the leading opens up to compensate. */
   .prose-tide p,
   .prose-tide li {
     font-size: 1.0625rem;
-    line-height: 1.75;
+    line-height: 1.8;
     color: var(--ink-soft);
   }
 
@@ -166,9 +234,9 @@
   .prose-tide blockquote {
     border-left: 2px solid var(--color-seaglass-400);
     padding-left: 1.5rem;
-    font-family: var(--font-display);
     font-size: 1.25rem;
-    line-height: 1.5;
+    line-height: 1.55;
+    font-style: italic;
     color: var(--color-tide-800);
   }
 

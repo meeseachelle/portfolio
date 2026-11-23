@@ -1,0 +1,113 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { habitats } from '../lib/habitats';
+
+/* The lead project on the home page: a wide showcase panel holding the product
+   screenshot, with the project's details set in a column to its right. Stacks
+   to panel-over-text below lg. */
+interface Props {
+  entry: CollectionEntry<'work'>;
+  index?: number;
+}
+
+const { entry, index = 0 } = Astro.props;
+const {
+  title,
+  company,
+  summary,
+  impact,
+  tags,
+  year,
+  cover,
+  coverAlt,
+  featureImage,
+  featureImageAlt,
+  habitat,
+} = entry.data;
+const habitatMeta = habitats[habitat];
+const image = featureImage ?? cover;
+const imageAlt = featureImage ? featureImageAlt : coverAlt;
+---
+
+<article class="unfurl group relative">
+  <a
+    href={`/work/${entry.id}`}
+    class="grid items-start gap-8 no-underline focus-visible:outline-offset-8 lg:grid-cols-[minmax(0,1.85fr)_minmax(0,1fr)] lg:gap-12"
+  >
+    <!-- Showcase panel: a soft tinted stage with the screenshot floating in a
+         thin bezel, like a device on a table. -->
+    <div
+      class="overflow-hidden rounded-[1.5rem_1.25rem_1.75rem_1.375rem] border border-sand-200 bg-sand-100 px-6 pt-8 pb-8 sm:px-10 sm:pt-10 sm:pb-10"
+    >
+      {
+        image ? (
+          <div class="rounded-[0.875rem] bg-kelp-900 p-[5px] shadow-[0_24px_48px_-20px_rgb(22_33_31/0.35)] transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:-translate-y-1">
+            <Image
+              src={image}
+              alt={imageAlt ?? ''}
+              widths={[640, 960, 1440]}
+              sizes="(max-width: 1024px) 88vw, 600px"
+              loading={index === 0 ? 'eager' : 'lazy'}
+              class="block w-full rounded-[0.625rem]"
+            />
+          </div>
+        ) : (
+          <div
+            class="flex aspect-[1440/1024] w-full items-center justify-center rounded-[0.625rem] bg-sand-200"
+            aria-hidden="true"
+          >
+            <span class="font-display text-sm text-fog-500">{company}</span>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="lg:pt-2">
+      <div class="font-ui flex flex-wrap items-baseline gap-x-3 gap-y-1 text-xs text-fog-500">
+        <span
+          class="inline-flex items-center gap-1.5"
+          style={`color: ${habitatMeta.color}`}
+        >
+          <span
+            class="inline-block h-1.5 w-1.5 rounded-[60%_40%_55%_45%]"
+            style={`background-color: ${habitatMeta.color}`}
+            aria-hidden="true"></span>
+          {habitatMeta.label}
+        </span>
+        <span aria-hidden="true">·</span>
+        <span>{company}</span>
+        <span aria-hidden="true">·</span>
+        <span>{year}</span>
+      </div>
+
+      <h3
+        class="mt-2 text-2xl text-kelp-900 transition-colors group-hover:text-tide-600"
+      >
+        {title}
+      </h3>
+
+      <p class="mt-3 text-[0.9375rem] leading-relaxed text-kelp-700">
+        {summary}
+      </p>
+
+      {
+        impact && (
+          <p class="font-ui mt-4 text-[0.9375rem] font-medium text-tide-800">
+            {impact}
+          </p>
+        )
+      }
+
+      <ul class="font-ui mt-5 flex list-none flex-wrap gap-2 p-0">
+        {
+          tags.map((tag) => (
+            <li class="rounded-full border border-sand-200 px-2.5 py-1 text-xs text-fog-500">
+              {tag}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </a>
+</article>

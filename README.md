@@ -1,16 +1,51 @@
-# michellechang.design
+# michellechangdesign.com
 
 Portfolio site for Michelle Chang, product designer. Built with Astro,
-Tailwind v4, and MDX. Deployed on Vercel.
+Tailwind v4, and MDX. Deployed to Cloudflare Workers Static Assets.
 
 ## Running it
 
 ```bash
 npm install
-npm run dev      # local dev server
-npm run build    # static build to dist/
-npm run check    # type + content schema check
+npm run dev           # local dev server
+npm run build         # static build to dist/
+npm run check         # type + content schema check
+npm run preview:edge  # build, then serve through the real Workers runtime
+npm run deploy        # build and push live
 ```
+
+## Deploying
+
+Hosted on **Cloudflare Workers Static Assets** rather than Pages. Pages still
+works and isn't being retired, but Cloudflare is folding its features into
+Workers and shipping new capability there first — so this is the surface that
+stays current.
+
+There is no Worker script. `wrangler.jsonc` points at `dist/` and Cloudflare
+serves it from the edge, which is why the config has no `main` entry.
+
+**First deploy**
+
+```bash
+npx wrangler login     # opens the browser, authorizes once
+npm run deploy
+```
+
+That returns a `*.workers.dev` URL. To use a custom domain, add the domain to
+your Cloudflare account, then in the dashboard: Workers & Pages → this worker →
+Settings → Domains & Routes → Add custom domain. Also update `site` in
+`astro.config.mjs`, since canonical URLs and the sitemap are generated from it.
+
+**Deploy on git push**
+
+In the Cloudflare dashboard, connect the GitHub repo under Workers & Pages, with
+build command `npm run build` and output directory `dist`. Pull requests get
+preview URLs.
+
+**Why not Vercel:** the free tier prohibits commercial use, and a portfolio
+soliciting client work sits inside that restriction. Cloudflare's free tier
+allows it, has no bandwidth cap, and keeps serving when limits are exceeded
+instead of pausing the site.
 
 ## Design decisions
 

@@ -2,62 +2,93 @@
 title: 'Making non-adherence explainable at sea'
 company: 'Sofar Ocean'
 summary: 'Captains deviate from routing guidance for good reasons. I designed the layer that let shoreside operators see why, instead of just seeing a lower score.'
-role: 'Product design lead — research, interaction design, and data visualization'
+role: 'Product design lead: research, interaction design, and data visualization'
 year: '2024'
 tags: ['Product design', 'UX research', 'Data viz', 'User testing']
 impact: 'Beta with one customer, then released to all customers'
+cover: '../../assets/work/maritime-shipping-adherence/cover-wayfinder.jpg'
+coverAlt: "Sofar's Wayfinder adherence dashboard shown over a photograph of open ocean water"
 habitat: 'ocean'
-order: 2
+order: 4
 ---
 
-## Background
+import Figure from '../../components/Figure.astro';
+import reasons from '../../assets/work/maritime-shipping-adherence/deviation-reason-taxonomy.png';
+import dashboard from '../../assets/work/maritime-shipping-adherence/adherence-graph-with-notifications.png';
+import expanded from '../../assets/work/maritime-shipping-adherence/notification-expanded.png';
+import remarks from '../../assets/work/maritime-shipping-adherence/master-remarks-detail.png';
+import fullAcceptance from '../../assets/work/maritime-shipping-adherence/adherence-full-acceptance.png';
 
-Sofar's Wayfinder platform evaluates millions of routes each day and alerts
-captains and operators — in-app and by email — when a better path to port takes
-advantage of favorable forecasts. It also sends captains a daily RPM
-recommendation, because in changing conditions variable guidance always
-outperforms a constant power strategy.
+## Context
 
-## The problem
+Sofar's Wayfinder platform evaluates millions of routes a day and tells captains
+when a better path to port opens up. It also sends a daily RPM recommendation.
 
-Captains do not always follow the guidance, and they are often right not to.
-Conditions shift, and extenuating circumstances at sea don't appear in a
-forecast model. But every deviation lowered the vessel's adherence score, and
-shoreside operators were left looking at a number that told them *that*
-something went wrong without telling them *what*.
+Captains don't always follow it, and they're often right not to. Conditions
+shift, and what's happening at sea doesn't appear in a forecast model. But every
+deviation lowered the vessel's adherence score, leaving shoreside operators with
+a number that said something went wrong without saying what.
 
 > How can we allow shoreside operators to reasonably justify when captains do
 > not adhere to our recommendations?
 
-Framing it as justification rather than compliance was the pivotal decision.
-The obvious product response to a low adherence score is to push harder on
-adherence. That would have been the wrong tool: it treats the captain's
-judgment as the defect, when the captain is the person with the most
-information about the actual sea state.
+## The key decision
 
-## Finding the critical content
+Justification, not compliance.
 
-I asked customers what situations most commonly required them to depart from
-our guidance. Those reasons became the vocabulary of the feature — they gave
-operators a way to contextualize a captain's decision-making rather than
-second-guess it.
+The obvious response to a low score is to push harder on adherence. That treats
+the captain's judgment as the defect, when the captain has the most information
+about the actual sea state. Everything else followed from refusing that framing.
 
-## Adding context to the data visualization
+## What I did
 
-I introduced a column of notifications alongside the daily adherence graph,
-each one explaining what was occurring on a given day. Interactivity ties the
-two together: selecting an accordion item highlights the corresponding colored
-column on the graph, so the issue and its reasoning are visibly linked rather
-than sitting in two separate mental models.
+**Built the vocabulary from customers.** I asked what situations most often
+required departing from guidance. Those answers became the reason taxonomy.
 
-The design decision underneath this is small but load-bearing. The notifications
-could have lived in a separate tab, which would have been cleaner to build. Put
-next to the graph, they force the operator to read cause and effect together —
-which is the entire point of the feature.
+<Figure
+  src={reasons}
+  alt="Two versions of the deviation reason dropdown side by side. The shorter list has options including weather or sea conditions, marine traffic, mechanical issues, emergency, and ETA adjustment. The longer list adds RPM too low, RPM too high, and RPM sets off blowers."
+  caption="Version two splits out RPM-specific reasons after operators told us 'mechanical issues' was hiding three different situations."
+/>
 
-## Outcomes
+**Put the reasoning next to the data.** A column of notifications runs alongside
+the adherence graph. Selecting one highlights the matching day on the chart.
 
-Released initially as a beta to one target customer. After several weeks of
-positive feedback, it shipped to all customers.
+A separate tab would have been cleaner to build. Side by side forces operators
+to read cause and effect together, which is the whole point.
 
-> "One of the best tools you have prepared!" — Star Bulk
+<Figure
+  src={dashboard}
+  alt="Guidance adherence dashboard showing a 30-day line chart of RPM adherence with shaded bands, a scrollable column of dated notification cards to the left, and summary metrics for RPM adherence distribution and route suggestion acceptance below"
+  width="wide"
+/>
+
+<Figure
+  src={expanded}
+  alt="The same dashboard with one notification card expanded, revealing the master remarks field and a reason selector for that day's deviation"
+  width="wide"
+/>
+
+**Kept the captain's own words.** Master remarks surface verbatim. Paraphrasing
+them into a status would have defeated the purpose.
+
+<Figure
+  src={remarks}
+  alt="Close-up of a master remarks entry in which a captain records that the vessel proceeded per Sofar route guidance, with the instructed RPM of 61 and expected speed of 11 knots"
+/>
+
+<Figure
+  src={fullAcceptance}
+  alt="Adherence dashboard for a vessel at 100 percent RPM adherence and 100 percent route suggestion acceptance, with the notification column showing routine entries"
+  caption="It also had to read well when nothing went wrong. Otherwise operators only open it to find fault."
+  width="wide"
+/>
+
+## Outcome
+
+Beta with one target customer, then released to all customers after several
+weeks of positive feedback.
+
+> "One of the best tools you have prepared!"
+>
+> Star Bulk

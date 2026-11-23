@@ -17,9 +17,14 @@ const work = defineCollection({
       impact: z.string().optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      // Optional home-page image for the featured (first) card; falls back to cover.
+      featureImage: image().optional(),
+      featureImageAlt: z.string().optional(),
       // Which ecosystem this work belongs to — drives related-work threading.
       habitat: z.enum(['ocean', 'land', 'built', 'systems']),
       order: z.number().default(99),
+      // Featured projects lead the home page as wide showcase cards.
+      featured: z.boolean().default(false),
       draft: z.boolean().default(false),
     }),
 });

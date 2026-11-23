@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  // Describes what the image shows about the decision. Required, not optional —
+  // an empty alt on a case study screenshot is a bug, not a style choice.
+  alt: string;
+  // Optional visible caption. Says something the image can't say for itself;
+  // never restates the alt text.
+  caption?: string;
+  // 'wide' breaks out past the prose column for detail-dense screenshots.
+  width?: 'prose' | 'wide';
+}
+
+const { src, alt, caption, width = 'prose' } = Astro.props;
+---
+
+<figure class:list={['my-12', width === 'wide' && 'lg:-mx-24']}>
+  <div
+    class="overflow-hidden rounded-[1rem_0.875rem_1.125rem_1rem] border border-sand-200 bg-white"
+  >
+    <Image
+      src={src}
+      alt={alt}
+      widths={[480, 800, 1200, 1600]}
+      sizes={width === 'wide'
+        ? '(max-width: 1024px) 92vw, 72rem'
+        : '(max-width: 768px) 92vw, 42rem'}
+      loading="lazy"
+      decoding="async"
+      class="w-full"
+    />
+  </div>
+  {
+    caption && (
+      <figcaption class="font-ui mt-3 text-sm leading-relaxed text-fog-500">
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  /* The prose container caps line length for reading; figures opt out of that
+     cap so screenshots aren't squeezed into a 68ch column. */
+  figure {
+    max-width: none;
+  }
+</style>

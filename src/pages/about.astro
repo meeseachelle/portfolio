@@ -1,51 +1,92 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import portrait from '../assets/about/human-in-nature.jpg';
 ---
 
 <Base
-  title="About — Michelle Chang"
-  description="Product designer in San Francisco working across climate, ocean, agriculture, construction, and applied AI."
+  title="About | Michelle Chang"
+  description="Product designer and systems-thinker in San Francisco building in supply chain, infrastructure, and sustainability."
 >
   <section class="mx-auto max-w-5xl px-6 pt-16 sm:px-8 sm:pt-24">
-    <h1 class="text-display max-w-2xl text-kelp-900">
-      Born and bred in San Francisco. Still designing for the systems outside
-      the window.
+    <h1 class="text-display text-kelp-900">
+      Born and bred in San Francisco.<br />Designing what's outside the window.
     </h1>
 
-    <div class="prose-tide mt-12">
+    <!-- Portrait sits beside the opening paragraphs rather than above them:
+         on a page whose argument is "ecosystem-thinking," the photo is
+         evidence, not decoration. It leads on mobile, where a side-by-side
+         would collapse into an awkward stack anyway. -->
+    <div class="mt-12 grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <figure class="order-first lg:order-last lg:col-span-5">
+        <div
+          class="overflow-hidden rounded-[1.5rem_1.25rem_1.75rem_1.375rem] border border-sand-200 bg-white"
+        >
+          <!-- width is capped at 1000 deliberately. Without it Astro emits the
+               full 3024px original as the src fallback — a 2.6MB file that
+               no layout on this page ever needs. -->
+          <Image
+            src={portrait}
+            alt="Michelle crouched on a mossy boulder at the base of a tall waterfall, looking up at the falling water in a basalt canyon lined with moss and fallen logs"
+            width={1000}
+            height={1333}
+            widths={[420, 700, 1000]}
+            sizes="(max-width: 1024px) 92vw, 26rem"
+            loading="eager"
+            class="w-full"
+          />
+        </div>
+        <figcaption class="font-ui mt-3 text-sm leading-relaxed text-fog-500">
+          Against the excellent TLC's better judgement, I still go chasing
+          waterfalls. This one was in Washington State.
+        </figcaption>
+      </figure>
+
+      <div class="prose-tide lg:col-span-7">
+        <p>
+          I grew up on LEGOs and Roald Dahl, feed on imagination, revel in ocean
+          mist and Karl the fog, and run on matcha.
+        </p>
+
+        <p>
+          Eight years in, my work spans privacy and security, agriculture,
+          maritime shipping, climate tech, construction, and most recently
+          applied AI. The domains look unrelated until you notice the shape they
+          share: an expert user, disparate and ambiguous sources, and a
+          consequential call to make before the data resolves.
+        </p>
+
+        <p>
+          {/* Astro collapses the newline before an inline <a>, which glues it
+              to the preceding word. {' '} forces a real space. The Spotify si=
+              share-tracking parameter is stripped from the URL. */}
+          I'm also the design founder of{' '}
+          <a href="https://seafoamstudio.co" rel="noopener">Seafoam Studio</a>,
+          a multidisciplinary creative studio exploring creativity through
+          movement, storytelling, and community. And I host{' '}
+          <a
+            href="https://open.spotify.com/show/033Il0aozf3QpBOa6QDQXv"
+            rel="noopener"><em>Sea People</em></a>, a podcast of stories about
+          the sea and the people who steward it.
+        </p>
+      </div>
+    </div>
+
+    <div class="prose-tide mt-4">
+      <h2>Design philosophy</h2>
+
       <p>
-        I grew up on LEGOs and Roald Dahl, feed on imagination, revel in ocean
-        mist and Karl the fog, and run on matcha. Six years into product design,
-        the thread through my work is systems that are too large to see at once
-        — a shipping route, a carbon inventory, a field over a growing season —
-        and the people who have to make a decision about them today.
+        I'm motivated by social dynamics: what actually moves people and
+        processes. That means leading with curiosity and using a service design
+        and research lens to understand where people are coming from before
+        deciding what to build.
       </p>
 
       <p>
-        My work spans privacy and security, agriculture, maritime shipping,
-        climate tech, construction, and most recently applied AI. The domains
-        look unrelated until you notice they share a shape: an expert user, a
-        pile of ambiguous data, and a consequential call to make before the
-        data resolves.
+        In practice: start with the people and teams involved in the decision,
+        not the interface.
       </p>
 
-      <h2>How I work</h2>
-
-      <p>
-        I start with the person holding the decision, not the interface. In
-        maritime shipping that meant sitting with the gap between what a routing
-        model recommends and what a captain does at 3am in weather — and
-        designing for the justification, not the compliance.
-      </p>
-
-      <h2>Working together</h2>
-
-      <p>
-        I'm available for product design engagements, with a bias toward climate,
-        ocean, and applied AI teams building tools for expert users. If that's
-        the shape of your problem,
-        <a href="mailto:meeseachelle@gmail.com">send me a note</a>.
-      </p>
     </div>
   </section>
 </Base>

@@ -2,61 +2,133 @@
 title: 'Getting 1.1 million acres of farmland through a data-entry gauntlet'
 company: 'Corteva Agrisciences'
 summary: 'Qualifying for carbon credits meant an enormous amount of manual data entry. I designed the structure, statuses, and bulk actions that got submission rates to 94%.'
-role: 'Product designer — persona research, task flows, interaction design, testing with 12 farmers'
+role: 'Product designer: persona research, task flows, interaction design, testing with 12 farmers'
 year: '2022'
 tags: ['Product design', 'UX research', 'Interviews', 'UI/UX']
 impact: '1.1M acres enrolled, 94% submission rate, 60% less CS time'
+cover: '../../assets/work/regenerative-farming/cover-granular-insights.jpg'
+coverAlt: 'Granular Insights carbon field details screen showing historical baseline data for a field, over a photograph of a crop field'
 habitat: 'land'
-order: 1
+order: 3
 ---
 
-## Background
+import Figure from '../../components/Figure.astro';
+import persona from '../../assets/work/regenerative-farming/persona-pathway-patty.jpg';
+import journeyWorkshop from '../../assets/work/regenerative-farming/journey-map-workshop.jpg';
+import journeyFlow from '../../assets/work/regenerative-farming/journey-map-flow.jpg';
+import sketchFieldEventYear from '../../assets/work/regenerative-farming/hierarchy-sketch-field-event-year.jpg';
+import sketchFieldYearEvent from '../../assets/work/regenerative-farming/hierarchy-sketch-field-year-event.jpg';
+import sketchYearEventField from '../../assets/work/regenerative-farming/hierarchy-sketch-year-event-field.jpg';
+import cropSeasons from '../../assets/work/regenerative-farming/crop-seasons-overview.jpg';
+import baseline from '../../assets/work/regenerative-farming/field-data-historical-baseline.jpg';
+import entryForm from '../../assets/work/regenerative-farming/cover-crop-entry-form.jpg';
+import bulkEntry from '../../assets/work/regenerative-farming/bulk-entry-states.jpg';
+import advisorFeedback from '../../assets/work/regenerative-farming/advisor-feedback-synthesis.jpg';
 
-The Corteva Carbon Initiative launched as a pilot in 2021 and expanded through a
-joint effort with Indigo Ag to generate rigorous, registry-issued carbon credits
-for farmers at scale. Participating farmers enter their practice change data
-into Granular Insights, Corteva's free digital tool for measuring impact,
-improving soil health, and earning additional income.
+## Context
 
-## The problem
+The Corteva Carbon Initiative generates registry-issued carbon credits for
+farmers at scale. Farmers enter their practice change data into Granular
+Insights, Corteva's free tool for measuring impact and earning additional
+income.
 
-Qualifying for carbon credits requires an extensive amount of data entry. The
-goal was to make that process as simple and seamless as possible for the farmer,
-who is doing this on top of actually farming. We tested and implemented four
-approaches: clear statuses, breaking the work into steps, bulk actions, and
-smart defaults.
+Qualifying takes an enormous amount of data entry, on top of actually farming.
 
-## Primary persona
+## The key decision
 
-Many participants adopt practice changes for agronomic reasons first and see
-carbon payments as a small value-add. Our primary persona — Pathway Patty —
-represented the farmer most likely to participate.
+Most participants adopt practice changes for agronomic reasons and treat carbon
+payment as a bonus. So the product couldn't use the payout as the reward for
+finishing a long form. The reward had to be **legible progress** and confidence
+the data was right.
 
-That ordering mattered to the design. If the payment is not the main motivation,
-then the tool cannot lean on the payout as the reward for finishing a long form.
-The reward had to be legible progress and confidence the data was right.
+<Figure
+  src={persona}
+  alt="Persona sheet for Carbon Pathway Patty: a South Dakota farmer in her early sixties experimenting with reduced tillage, with motivation ratings for experimentalism, tech propensity, and soil health"
+  caption="Patty's motivation is agronomic. That changes what the product has to reward."
+/>
 
-## Task flows
+## What I did
 
-I mapped the flows for entering and verifying practice change data across fields
-and seasons, which is where the sheer volume of the task became concrete.
+**Mapped the work with the people fielding the complaints.** Journey mapping
+with customer success surfaced the questions the product should have been
+answering itself.
 
-## Design iteration
+<Figure
+  src={journeyWorkshop}
+  alt="Workshop journey map built from colored sticky notes across three horizontal swimlanes, tracking customer steps, feelings, and opportunity areas"
+  width="wide"
+/>
 
-Determining information hierarchy was the central problem, and we tested it
-internally and externally with our pool of 12 farmers. Farmers organize their
-files in strikingly different ways, so the goal was finding the structure that
-made sense to *them* rather than the one that mirrored our data model.
+<Figure
+  src={journeyFlow}
+  alt="Task flow diagram with branching decision diamonds mapping how a farmer enters practice change data across multiple fields and crop seasons"
+  width="wide"
+/>
 
-After feedback that manual entry became repetitive, we added bulk actions.
+**Tested three information hierarchies with 12 farmers.** Farmers organize
+records in strikingly different ways, so I sketched all three plausible
+orderings rather than polishing one. Cheap sketches are easier to disagree with
+than finished screens.
 
-## Outcomes
+<Figure
+  src={sketchFieldEventYear}
+  alt="Hand-drawn whiteboard sketch of a data entry table organized field first, then practice change event, then year"
+  caption="Option one: field → event → year."
+/>
 
-- **1.1M** acres enrolled
-- **31** states enrolled
+<Figure
+  src={sketchFieldYearEvent}
+  alt="Hand-drawn whiteboard sketch of the same data organized field first, then year, then practice change event"
+  caption="Option two: field → year → event."
+/>
+
+<Figure
+  src={sketchYearEventField}
+  alt="Hand-drawn whiteboard sketch organizing data by year across the top with practice change events listed down the side"
+  caption="Option three won: year → event → field. Farmers think in seasons, and it matched how they already keep records."
+/>
+
+<Figure
+  src={cropSeasons}
+  alt="Carbon field details screen showing crop seasons from 2016 to 2020 as separate cards, each with a completion percentage and an edit button"
+  caption="Progress is legible per season, so a farmer can stop and resume without losing their place."
+  width="wide"
+/>
+
+<Figure
+  src={baseline}
+  alt="Historical baseline data table listing practice change events by date with edit controls, and a green confirmation banner at the bottom"
+  width="wide"
+/>
+
+**Cut the form down conditionally**, so farmers who skipped a practice never see
+its questions.
+
+<Figure
+  src={entryForm}
+  alt="Field data entry form asking whether cover crops were planted during the 2020 crop season, with yes and no options and conditional follow-up questions"
+/>
+
+**Added bulk actions** after feedback that manual entry got repetitive. The edge
+cases carried the work: what happens when some fields are already filled, and
+when none are left.
+
+<Figure
+  src={bulkEntry}
+  alt="Three states of the bulk entry control: applying a value to all fields, to some fields via a multi-select, and a disabled state when no fields remain"
+  width="wide"
+/>
+
+<Figure
+  src={advisorFeedback}
+  alt="Spreadsheet synthesizing feedback from advisor sessions, with participant responses grouped by question across columns"
+/>
+
+## Outcome
+
+- **1.1M** acres enrolled across **31** states
 - **94%** submission rate
 - **60%** reduction in customer success time
 
-The 60% CS reduction is the one I point to. It means the guidance in the product
-replaced a human explaining the same thing over and over — which is the real test
-of whether the structure was right.
+The 60% is the one I point to: product guidance replaced a human explaining the
+same thing over and over.

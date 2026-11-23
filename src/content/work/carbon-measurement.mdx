@@ -1,65 +1,71 @@
 ---
-title: 'Helping non-finance teams get finance data'
+title: 'Helping teams access spend data for carbon measurement'
 company: 'Carbon Direct'
 summary: 'Carbon footprinting depends on spend data that sits with the finance team. I designed the guidance and upload experience that cut the back-and-forth between them.'
-role: 'Product designer — research, journey mapping, interaction design, user testing'
+role: 'Product designer: research, journey mapping, interaction design, user testing'
 year: '2023'
 tags: ['Product design', 'UX research', 'User testing', 'UI/UX']
+cover: '../../assets/work/carbon-measurement/cover-measurement-tool.jpg'
+coverAlt: "Carbon Direct's company operations dashboard listing emissions data sources, shown over a photograph of fog in a forest"
 habitat: 'systems'
-order: 4
+order: 2
+featured: true
+featureImage: '../../assets/work/carbon-measurement/your data.png'
+featureImageAlt: 'Carbon Direct Company Operations 2022 footprint page, with a table of received data files above cards for each data category such as operational spending, electricity and natural gas, and business travel'
 ---
 
-## Background
+import Figure from '../../components/Figure.astro';
+import journey from '../../assets/work/carbon-measurement/customer-journey-map.jpg';
 
-Carbon Direct's measurement tool quantifies emissions across sources, tracks
-change over time, and surfaces areas for improvement. An organization's
-footprint is calculated from two main data sources: operational spending and
-activity data.
+## Context
 
-## The problem
+Carbon Direct's measurement tool calculates an organization's footprint from two
+sources: operational spending and activity data.
 
-Getting operating expense data is critical and difficult. The people doing
-carbon footprinting usually don't sit in the finance function, so they depend on
-a finance team to pull it. The requirements almost always got messy — unclear
-data structure, format, or terminology — which produced rounds of back-and-forth
-and rework between two teams who don't share a vocabulary.
+Getting the spend data is the hard part. The people doing carbon footprinting
+don't sit in finance, so they depend on a finance team to pull it, and the
+request almost always got messy. Unclear structure, format, terminology. Rounds
+of back-and-forth between two teams who don't share a vocabulary.
 
 > How can we guide customers on *what* data to get, and *where and how* to get
 > it?
 
-## Understanding the customer journey
+## The key decision
 
-I mapped the journey to locate exactly where the handoff between sustainability
-and finance broke down. The failure wasn't in the upload step, which is where
-the product surfaced it — it was upstream, in the request the customer had to
-make of a colleague.
+**The failure wasn't where the product showed it.** Journey mapping placed the
+breakdown upstream of the upload step, in the request one colleague had to make
+of another. Mapping internal touch points alongside customer actions made the
+cost visible: every pain point had a matching hour of our accounting team's time.
 
-## Design iterations
+<Figure
+  src={journey}
+  alt="Measure user journey map with a persona panel on the left and five stages across the top: learning, onboarding, collecting and uploading data, reviewing and refining data, and receiving report. Rows below track goals, user actions, internal team touch points, feelings and thoughts, pain points, and opportunities."
+  width="wide"
+/>
 
-**Phase 1 — content and upload experience.** Working from our own finance team's
-feedback, I improved the guidance for exporting expense data out of accounting
-systems. The previous experience put the upload in a modal with a click-to-upload
-control; I moved it to a full page with a drop zone so customers could review the
-file after uploading rather than committing blind.
+## What I did
 
-**Phase 2 — pre-formatting the data.** Our carbon accounting team had been
-manually cleaning and formatting every upload. We explored removing that step by
-auto-detecting data fields and doing the mapping automatically, then letting the
-customer review and edit the formatting themselves.
+**Phase 1: guidance and upload.** Rewrote the instructions for exporting spend
+data out of accounting systems, working from our own finance team's feedback.
+Moved the upload out of a modal onto a full page with a drop zone, so customers
+could review the file instead of committing blind.
 
-Phase 2 is the more interesting tradeoff: automating the mapping risks silently
-mis-assigning a category, which corrupts a footprint number a company may
-publish. Keeping the customer in a review step was slower by design.
+**Phase 2: pre-formatting.** Our accounting team was manually cleaning every
+upload. We auto-detected fields and mapped them, then put the customer in a
+review step to confirm.
 
-## Outcomes
+That review step was slower by design. Silent mis-mapping corrupts a footprint
+number a company may publish.
 
-I left the company shortly after release, so we never gathered the analytics.
-The metrics the team had planned to use:
+## Outcome
 
-- Customers who share correct spend data without manual guidance from us
-- Time spent in the spend data upload feature before a first attempt
-- Number of uploads before the correct data landed
-- Volume of customer questions about collecting and sharing spend data
+I left shortly after release, so the analytics never got gathered. What the team
+planned to measure:
 
-Naming the measures without getting to read them is its own lesson in shipping
-inside a startup — the instrumentation has to land before the designer does.
+- Customers sharing correct spend data without manual guidance
+- Time in the upload feature before a first attempt
+- Uploads before the correct data landed
+- Volume of customer questions about collecting spend data
+
+Naming the measures without reading them is its own lesson: instrumentation has
+to land before the designer does.

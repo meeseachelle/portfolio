@@ -32,7 +32,7 @@ const related = (
 ).slice(0, 2);
 ---
 
-<Base title={`${title} — Michelle Chang`} description={summary}>
+<Base title={`${title} | Michelle Chang`} description={summary}>
   <article class="mx-auto max-w-5xl px-6 pt-12 sm:px-8 sm:pt-16">
     <a
       href="/"
@@ -42,7 +42,9 @@ const related = (
     </a>
 
     <header class="mt-8 max-w-3xl">
-      <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-fog-500">
+      <p
+        class="font-ui flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-fog-500"
+      >
         <span
           class="inline-flex items-center gap-1.5"
           style={`color: ${habitatMeta.color}`}
@@ -67,7 +69,7 @@ const related = (
     <!-- Role and impact sit above the fold on purpose: these are the two
          things a hiring manager scans for before deciding to read on. -->
     <dl
-      class="mt-10 grid gap-x-10 gap-y-6 border-y border-sand-200 py-6 sm:grid-cols-3"
+      class="font-ui mt-10 grid gap-x-10 gap-y-6 border-y border-sand-200 py-6 sm:grid-cols-3"
     >
       <div>
         <dt class="text-xs tracking-wide text-fog-500 uppercase">My role</dt>

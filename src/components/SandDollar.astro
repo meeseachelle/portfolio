@@ -1,0 +1,67 @@
+---
+import { Image } from 'astro:assets';
+import sandDollar from '../assets/home/sand-dollar.png';
+
+// Left behind by the wave. Appears at 4.6s, while the water is still draining
+// back past this spot, so it emerges from the retreating tide rather than
+// fading in onto dry sand.
+//
+// Positioned to tuck into the gap the short "Making waves" line leaves open,
+// rather than being pinned to the right edge. Anchored from the left and
+// bottom so it stays in that pocket as the hero's height changes.
+//
+// Hidden below lg: at narrower widths the text column fills that space and
+// the shell would land on top of the copy.
+//
+// Under reduced motion the wave never plays, so this is simply visible from
+// the start instead of never appearing.
+---
+
+<div class="sand-dollar" aria-hidden="true">
+  <Image
+    src={sandDollar}
+    alt=""
+    widths={[160, 256, 405]}
+    sizes="8rem"
+    loading="lazy"
+    decoding="async"
+    class="h-auto w-full"
+  />
+</div>
+
+<style>
+  .sand-dollar {
+    position: absolute;
+    left: 26.5rem;
+    bottom: 1.25rem;
+    width: 8rem;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 5;
+    animation: sd-settle 1.6s ease-out 4.6s forwards;
+  }
+
+  @keyframes sd-settle {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(1.03);
+    }
+    to {
+      opacity: 0.92;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .sand-dollar {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sand-dollar {
+      opacity: 0.92;
+      animation: none;
+    }
+  }
+</style>

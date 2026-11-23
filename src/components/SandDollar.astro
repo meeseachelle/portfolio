@@ -6,9 +6,10 @@ import sandDollar from '../assets/home/sand-dollar.png';
 // back past this spot, so it emerges from the retreating tide rather than
 // fading in onto dry sand.
 //
-// Positioned to tuck into the gap the short "Making waves" line leaves open,
-// rather than being pinned to the right edge. Anchored from the left and
-// bottom so it stays in that pocket as the hero's height changes.
+// Positioned just past the right edge of the text column (the lede is capped
+// at max-w-2xl, 42rem), beside the closing lines, so it never overlaps the
+// availability line. Anchored from the left and bottom so it stays beside
+// that copy as the hero's height changes.
 //
 // Hidden below lg: at narrower widths the text column fills that space and
 // the shell would land on top of the copy.
@@ -32,8 +33,8 @@ import sandDollar from '../assets/home/sand-dollar.png';
 <style>
   .sand-dollar {
     position: absolute;
-    left: 26.5rem;
-    bottom: 1.25rem;
+    left: 45rem;
+    bottom: 1.75rem;
     width: 8rem;
     pointer-events: none;
     opacity: 0;
